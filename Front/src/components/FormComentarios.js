@@ -12,6 +12,13 @@ import TextField from '@mui/material/TextField';
 function FormComentarios(props) { 
 
 
+  if(props.name && props.email && props.website && props.comentario){
+    document.getElementById("name").value = props.name;
+    document.getElementById("email").value = props.email;
+    document.getElementById("lastname").value = props.website;
+    document.getElementById("comentario").value = props.comentario;
+  }
+  
   const agregarActions = (event) => {
     event.preventDefault();
     const name = document.getElementById("name").value;
@@ -25,16 +32,18 @@ function FormComentarios(props) {
       "Website":website,
       "Comentario":comentario
     }
-    if(localStorage.getItem('tipoRequest') && localStorage.getItem('tipoRequest') === 'PUT'){
+    if(localStorage.getItem('tipoRequest')){
+      console.log('editando');
       const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       };
-      fetch('http://localhost:3000/', requestOptions)
+      fetch('http://localhost:3000/'+email, requestOptions)
           .then(response => response.json())
           .then(data => successData(data));  
     }else{
+      console.log('creando');
       const requestOptions2 = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -61,28 +70,29 @@ function FormComentarios(props) {
           
             <Grid item md={12}>
             <FormControl>
-              <TextField id="email" type='email' aria-describedby="email-helper"  variant="outlined" value={props.email} />
+              <TextField id="email" type='email' aria-describedby="email-helper"  variant="outlined" placeholder={props.email}></TextField>
               <FormHelperText id="email-helper">Tu email</FormHelperText>
             </FormControl>
             </Grid>
             <Grid item md={12}>
             <FormControl>
-              <TextField id="name" type='name' aria-describedby="name-helper"  variant="outlined" value={props.name}/>
+              <TextField id="name" type='name' aria-describedby="name-helper"  variant="outlined" placeholder={props.name}/>
               <FormHelperText id="name-helper">Nombres y Apellidos</FormHelperText>
             </FormControl>
             </Grid>
             <Grid item md={12}>
               <FormControl>
-                <TextField id="lastname" type='lastname' aria-describedby="lastname-helper"  variant="outlined" value={props.website}/>
+                <TextField id="lastname" type='lastname' aria-describedby="lastname-helper"  variant="outlined" placeholder={props.website}/>
                 <FormHelperText id="lastname-helper">Web</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item md={12}>              
               <FormControl>
-                <TextField id="comentario" type='email' aria-describedby="email-helper" variant="outlined" value={props.comentario}/>
+                <TextField id="comentario" type='email' aria-describedby="email-helper" variant="outlined" placeholder={props.comentario}/>
                 <FormHelperText id="email-helper">Dejanos tu comentario</FormHelperText>
               </FormControl>
             </Grid>
+            
           <Grid item md={6}> 
             <Button variant='contained' color='primary' onClick={agregarActions}>Guardar</Button>    
           </Grid>          

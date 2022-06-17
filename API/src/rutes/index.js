@@ -19,7 +19,7 @@ router.post('/', (req,res) => {
     console.log(req.body);
     const {email,Nombre,Website,Comentario} = req.body; //desetructuring data
     if(email && Nombre && Website && Comentario){
-        const id = comentarios.length + 1;
+        const id = req.body.email;
         const nuevoComentario = {...req.body, id};
         console.log(nuevoComentario);
         comentarios.push(nuevoComentario);
